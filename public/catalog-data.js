@@ -1,0 +1,323 @@
+window.CATALOG = {
+  "whatsapp": "5511999854298",
+  "preview": true,
+  "shippingEndpoint": "",
+  "catalogEndpoint": "",
+  "collections": [
+    {
+      "id": "ESS",
+      "name": "Essenziale",
+      "description": "A beleza do simples",
+      "image": "ESS-01",
+      "priority": 1
+    },
+    {
+      "id": "BOT",
+      "name": "Botanica",
+      "description": "Flores que contam histórias",
+      "image": "BOT-01",
+      "priority": 1
+    },
+    {
+      "id": "CEL",
+      "name": "Celebra",
+      "description": "Momentos que permanecem",
+      "image": "CEL-01",
+      "priority": 1
+    },
+    {
+      "id": "PRO",
+      "name": "Promessa",
+      "description": "Palavras que fortalecem",
+      "image": "PRO-01",
+      "priority": 1
+    },
+    {
+      "id": "HER",
+      "name": "Héritage",
+      "description": "O charme de outras épocas",
+      "image": "HER",
+      "priority": 2
+    },
+    {
+      "id": "DOL",
+      "name": "Dolce Vita",
+      "description": "Pequenos prazeres",
+      "image": "DOL",
+      "priority": 2
+    },
+    {
+      "id": "VIV",
+      "name": "Vivace",
+      "description": "Uma rotina com mais cor",
+      "image": "VIV",
+      "priority": 2
+    },
+    {
+      "id": "LIB",
+      "name": "La Libreria",
+      "description": "Para quem vive muitas histórias",
+      "image": "LIB",
+      "priority": 2
+    },
+    {
+      "id": "AFF",
+      "name": "Affetto",
+      "description": "Vínculos que aquecem",
+      "image": "AFF",
+      "priority": 3
+    },
+    {
+      "id": "VIA",
+      "name": "Viaggio",
+      "description": "Memórias de lugares especiais",
+      "image": "VIA",
+      "priority": 3
+    },
+    {
+      "id": "PFE",
+      "name": "Professione",
+      "description": "Celebrando vocações",
+      "image": "PFE",
+      "priority": 3
+    },
+    {
+      "id": "PIC",
+      "name": "Piccoli",
+      "description": "Pequenos grandes amores",
+      "image": "PIC",
+      "priority": 3
+    },
+    {
+      "id": "FREE",
+      "name": "Libera",
+      "description": "Sua ideia. Nossa criação.",
+      "image": "hero",
+      "priority": 1
+    }
+  ],
+  "designs": [
+    {
+      "id": "ESS-01",
+      "collection": "ESS",
+      "name": "Monograma",
+      "image": "ESS-01"
+    },
+    {
+      "id": "ESS-02",
+      "collection": "ESS",
+      "name": "Rituali",
+      "image": "ESS-02"
+    },
+    {
+      "id": "ESS-03",
+      "collection": "ESS",
+      "name": "Natura",
+      "image": "ESS-03"
+    },
+    {
+      "id": "BOT-01",
+      "collection": "BOT",
+      "name": "Hortênsia",
+      "image": "BOT-01"
+    },
+    {
+      "id": "BOT-02",
+      "collection": "BOT",
+      "name": "Lavanda",
+      "image": "BOT-02"
+    },
+    {
+      "id": "BOT-03",
+      "collection": "BOT",
+      "name": "Girassol",
+      "image": "BOT-03"
+    },
+    {
+      "id": "CEL-01",
+      "collection": "CEL",
+      "name": "Eternità",
+      "image": "CEL-01"
+    },
+    {
+      "id": "CEL-02",
+      "collection": "CEL",
+      "name": "Madrinha",
+      "image": "CEL-02"
+    },
+    {
+      "id": "CEL-03",
+      "collection": "CEL",
+      "name": "Benvenuto",
+      "image": "CEL-03"
+    },
+    {
+      "id": "PRO-01",
+      "collection": "PRO",
+      "name": "Pela Fé",
+      "image": "PRO-01"
+    },
+    {
+      "id": "PRO-02",
+      "collection": "PRO",
+      "name": "Providência",
+      "image": "PRO-02"
+    },
+    {
+      "id": "PRO-03",
+      "collection": "PRO",
+      "name": "Gratidão",
+      "image": "PRO-03"
+    }
+  ],
+  "products": [
+    {
+      "id": "CAN-001",
+      "name": "Caneca Clássica",
+      "category": "Canecas",
+      "description": "Branca · 325 ml",
+      "price": 34.9,
+      "lead": "1 a 2 dias úteis",
+      "image": "ESS-01",
+      "illustrated": true
+    },
+    {
+      "id": "CAN-002",
+      "name": "Color Bordeaux",
+      "category": "Canecas",
+      "description": "Alça e interior Bordeaux · 325 ml",
+      "price": 44.9,
+      "lead": "1 a 2 dias úteis",
+      "image": "bordeaux",
+      "illustrated": true
+    },
+    {
+      "id": "CAN-003",
+      "name": "Color Rosé",
+      "category": "Canecas",
+      "description": "Alça e interior rosé · 325 ml",
+      "price": 44.9,
+      "lead": "1 a 2 dias úteis",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "CAN-004",
+      "name": "Color Noir",
+      "category": "Canecas",
+      "description": "Alça e interior preto · 325 ml",
+      "price": 44.9,
+      "lead": "1 a 2 dias úteis",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "NEC-001",
+      "name": "Bella",
+      "category": "Necessaires",
+      "description": "18 × 12 × 2 cm",
+      "price": 29.9,
+      "lead": "10 a 15 dias, sob confirmação",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "NEC-002",
+      "name": "Mini Bella",
+      "category": "Necessaires",
+      "description": "15 × 10 × 2 cm",
+      "price": 19.9,
+      "lead": "10 a 15 dias, sob confirmação",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "XIC-001",
+      "name": "Dolce",
+      "category": "Xícaras",
+      "description": "Individual",
+      "price": null,
+      "lead": "2 a 4 dias úteis, sob confirmação",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "XIC-002",
+      "name": "Amore",
+      "category": "Xícaras",
+      "description": "Duo com suporte",
+      "price": 89.9,
+      "lead": "2 a 4 dias úteis, sob confirmação",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "XIC-003",
+      "name": "Famiglia",
+      "category": "Xícaras",
+      "description": "Quarteto com suporte",
+      "price": null,
+      "lead": "Sob consulta",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "KIT-001",
+      "name": "Bella Essenza",
+      "category": "Kits",
+      "description": "Clássica + Bella",
+      "price": null,
+      "lead": "Conforme componentes",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "KIT-002",
+      "name": "Piccolo",
+      "category": "Kits",
+      "description": "Clássica + Mini Bella",
+      "price": null,
+      "lead": "Conforme componentes",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "KIT-003",
+      "name": "Insieme",
+      "category": "Kits",
+      "description": "Duas canecas Clássica",
+      "price": null,
+      "lead": "Conforme componentes",
+      "image": null,
+      "illustrated": false
+    },
+    {
+      "id": "KIT-004",
+      "name": "Amore Speciale",
+      "category": "Kits",
+      "description": "Duo Amore + embalagem especial",
+      "price": null,
+      "lead": "Conforme componentes",
+      "image": null,
+      "illustrated": false
+    }
+  ],
+  "packaging": [
+    {
+      "id": "essential",
+      "name": "Essencial",
+      "price": 0
+    },
+    {
+      "id": "encanto",
+      "name": "Encanto",
+      "price": 7.9
+    }
+  ],
+  "payment": [
+    "Pix",
+    "Cartão de crédito",
+    "Cartão de débito",
+    "Link de pagamento"
+  ]
+};
