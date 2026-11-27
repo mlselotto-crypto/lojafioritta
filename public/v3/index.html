@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fioritta | Presentes personalizados</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a href="/v3/" class="brand"><img src="/assets/logo.svg" alt="Fioritta"></a>
+    <nav aria-label="Menu principal">
+      <a href="#catalogo">Catálogo</a><a href="#colecoes">Coleções</a><a href="#conta">Minha conta</a>
+      <a href="#sacola">Sacola <span id="cart-count">0</span></a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div><h1>Presentes com a sua história</h1><p>Escolha o produto, combine estampas e personalize do seu jeito.</p>
+      <a class="button" href="#catalogo">Explorar o catálogo</a></div>
+      <img src="/assets/hero.jpg" alt="Composição Fioritta com produtos personalizados" fetchpriority="high">
+    </section>
+    <p id="connection" class="notice" role="status" hidden></p>
+    <section id="catalogo">
+      <div class="section-head"><h2>Catálogo</h2><label>Buscar produtos<input id="search" type="search" placeholder="Ex.: caneca"></label></div>
+      <p id="catalog-status" role="status">Carregando catálogo…</p>
+      <div id="products" class="grid"></div>
+    </section>
+    <section id="colecoes"><h2>Coleções</h2><div id="collections" class="grid collection-grid"></div></section>
+    <dialog id="product-dialog" aria-labelledby="product-title"><div id="product-details"></div></dialog>
+    <section id="sacola"><h2>Sacola</h2><p id="cart-message" role="status" hidden></p><div id="cart"></div></section>
+    <section id="conta"><h2>Minha conta</h2><p id="account-message" role="status" hidden></p><div id="account"></div></section>
+  </main>
+  <footer class="site-footer"><img src="/assets/logo-light.svg" alt="Fioritta"><a href="./studio/">Fioritta Studio</a></footer>
+</body>
+</html>
