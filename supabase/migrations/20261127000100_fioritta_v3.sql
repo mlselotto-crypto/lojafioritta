@@ -74,6 +74,11 @@ create table public.addresses (
 );
 create index addresses_customer_idx on public.addresses(customer_id);
 
+create table public.customer_support (
+  id uuid primary key references public.customers(id) on delete cascade,
+  note text not null default '' check (length(note) <= 1600)
+);
+
 create table public.administrators (
   id uuid primary key references auth.users(id) on delete cascade,
   created_at timestamptz not null default now()
@@ -186,7 +191,7 @@ do $$
 declare table_name text;
 begin
   foreach table_name in array array['products','variants','collections','designs','packaging','store_settings',
-    'customers','addresses','administrators','orders','order_items','personalizations','payments','deliveries','change_history']
+    'customers','addresses','customer_support','administrators','orders','order_items','personalizations','payments','deliveries','change_history']
   loop
     execute format('alter table public.%I enable row level security', table_name);
     execute format('revoke all on table public.%I from public, anon, authenticated, service_role', table_name);
@@ -207,6 +212,7 @@ grant select on public.products, public.variants, public.collections, public.des
   public.packaging, public.store_settings to anon, authenticated;
 grant insert, update on public.products, public.variants, public.collections, public.designs,
   public.packaging, public.store_settings to authenticated;
+grant select, insert, update on public.customer_support to authenticated;
 grant select on public.customers, public.addresses, public.orders, public.order_items,
   public.personalizations, public.payments, public.deliveries, public.change_history to authenticated;
 grant insert (id, name, phone), update (name, phone) on public.customers to authenticated;
@@ -239,6 +245,8 @@ create policy customers_read on public.customers for select to authenticated
 create policy customers_insert on public.customers for insert to authenticated with check (id = (select auth.uid()));
 create policy customers_update on public.customers for update to authenticated
   using (id = (select auth.uid())) with check (id = (select auth.uid()));
+create policy support_studio on public.customer_support for all to authenticated
+  using ((select public.fioritta_is_admin())) with check ((select public.fioritta_is_admin()));
 create policy addresses_read on public.addresses for select to authenticated
   using (customer_id = (select auth.uid()) or (select public.fioritta_is_admin()));
 create policy addresses_insert on public.addresses for insert to authenticated with check (customer_id = (select auth.uid()));
@@ -354,7 +362,7 @@ end;
 $$;
 
 create function public.fioritta_studio_customers(page_offset integer default 0)
-returns table (id uuid, name text, phone text, email text, created_at timestamptz)
+returns table (id uuid, name text, phone text, email text, created_at timestamptz, support_note text)
 language plpgsql stable security definer set search_path = ''
 as $$
 begin
@@ -362,8 +370,9 @@ begin
     raise exception 'Acesso restrito ao Fioritta Studio.' using errcode = '42501';
   end if;
   return query
-    select c.id, c.name, c.phone, u.email::text, c.created_at
+    select c.id, c.name, c.phone, u.email::text, c.created_at, s.note
     from public.customers c join auth.users u on u.id = c.id
+    left join public.customer_support s on s.id = c.id
     order by c.created_at desc, c.id limit 26 offset greatest(page_offset, 0);
 end;
 $$;

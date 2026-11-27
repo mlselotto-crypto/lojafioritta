@@ -102,13 +102,14 @@ test('migrations, RLS, persistent checkout, Studio permissions and storage polic
 
   await t.test('cross-account reads, writes and Studio functions are blocked', async () => {
     await as('authenticated', ids.bob);
-    for (const table of ['orders', 'order_items', 'personalizations', 'payments', 'deliveries', 'change_history']) {
+    for (const table of ['orders', 'order_items', 'personalizations', 'payments', 'deliveries', 'change_history', 'customer_support']) {
       assert.equal((await rows('select * from ' + table)).length, 0, table);
     }
     assert.deepEqual(await rows('select id from customers'), [{ id: ids.bob }]);
     assert.equal((await first('select fioritta_is_admin() as allowed')).allowed, false);
     await assert.rejects(pg.query('insert into administrators(id) values ($1)', [ids.bob]), /permission denied/);
     await assert.rejects(pg.query("update orders set total_cents = 100 where id = $1", [order]), /permission denied/);
+    await assert.rejects(pg.query("insert into customer_support values ($1, 'Indevida')", [ids.bob]), /row-level security/);
     await assert.rejects(pg.query('select * from fioritta_studio_customers()'), /Acesso restrito/);
     await assert.rejects(pg.query("select fioritta_studio_approval($1,'aprovada')", [itemId]), /Acesso restrito/);
     await assert.rejects(pg.query("select fioritta_studio_order($1,'aguardando_pagamento',100,null,null,null)", [order]), /Acesso restrito/);
@@ -120,6 +121,8 @@ test('migrations, RLS, persistent checkout, Studio permissions and storage polic
     await as('authenticated', ids.studio);
     assert.equal((await first('select fioritta_is_admin() as allowed')).allowed, true);
     assert.equal((await rows('select * from fioritta_studio_customers()')).length, 3);
+    await pg.query("insert into customer_support values ($1, 'Acompanhar retirada')", [ids.alice]);
+    assert.equal((await first('select support_note from fioritta_studio_customers() where id = $1', [ids.alice])).support_note, 'Acompanhar retirada');
     await pg.query("update variants set price_cents = 7990, active = false where id = $1", [variant]);
     await pg.query("update products set lead_time = 'Quatro dias úteis' where id = 'CAN-001'");
     await pg.query("insert into storage.objects values ('fioritta-catalogo','catalogo/abc.jpg')");
@@ -137,6 +140,7 @@ test('migrations, RLS, persistent checkout, Studio permissions and storage polic
     assert.equal((await rows('select id from variants where id = $1', [variant])).length, 0);
     assert.equal((await first("select lead_time from products where id = 'CAN-001'")).lead_time, 'Quatro dias úteis');
     await as('authenticated', ids.alice);
+    assert.equal((await rows('select * from customer_support')).length, 0);
     assert.equal((await first('select total_cents from orders where id = $1', [order])).total_cents, 15980);
     assert.equal((await first('select approval_status from personalizations where order_item_id = $1', [itemId])).approval_status, 'aprovada');
     await assert.rejects(request([line()], null, ids.invalidRequest), /deixou de estar disponível/);

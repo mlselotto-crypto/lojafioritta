@@ -41,6 +41,7 @@ async function browser(t, { studio = false, admin = false, recovery = false } = 
   const products = structuredClone(initialProducts);
   const tables = { products, variants, collections, designs, packaging, store_settings: settings };
   let profile;
+  let supportNote;
   let signedIn = recovery;
   const orders = [];
   window.Response = Response;
@@ -70,6 +71,13 @@ async function browser(t, { studio = false, admin = false, recovery = false } = 
     if (url.pathname === '/auth/v1/recover') return Response.json({});
     const resource = url.pathname.split('/').at(-1);
     if (resource === 'fioritta_is_admin') return Response.json(signedIn && admin);
+    if (resource === 'fioritta_studio_customers' && signedIn && admin) {
+      return Response.json([{ id: user.id, name: 'Cliente', email: user.email, created_at: user.created_at, support_note: supportNote }]);
+    }
+    if (resource === 'customer_support' && method === 'POST' && signedIn && admin) {
+      supportNote = body.note;
+      return new Response(null, { status: 204 });
+    }
     if (method === 'HEAD') return new Response(null, { headers: { 'Content-Range': '0-0/1' } });
     if (resource === 'fioritta_request_order' && signedIn && profile) {
       const id = '10000000-0000-4000-8000-000000000003';
@@ -187,6 +195,11 @@ test('Studio rejeita clientes; administração navega e salva produto persistent
   admin.form('form[data-row="CAN-001"]', { name: 'Caneca Clássica editada' });
   await admin.waitFor(() => admin.find('form[data-row="CAN-001"] input[name="name"]')?.value === 'Caneca Clássica editada'
     && admin.find('#studio-message').textContent.includes('salvas'), 'edição persistente');
+  admin.find('[data-tab="customers"]').click();
+  await admin.wait('[data-customer-support]');
+  admin.form('[data-customer-support]', { note: 'Agendamento revisado' });
+  await admin.waitFor(() => admin.find('[data-customer-support] textarea')?.value === 'Agendamento revisado'
+    && admin.find('#studio-message').textContent.includes('salvas'), 'anotação de atendimento salva');
   admin.find('[data-signout]').click();
   await admin.wait('#studio-login');
   assert.equal(admin.find('[data-tab]'), null);

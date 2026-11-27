@@ -142,13 +142,21 @@ async function catalogBody(table, openId) {
   </div>`;
 }
 
-async function customersBody() {
+async function customersBody(openId) {
   const rows = await data(db.rpc('fioritta_studio_customers', { page_offset: page * pageSize }));
-  return `<div class="stack">${rows.slice(0, pageSize).map(row => `<article class="panel">
-    <h3>${e(row.name)}</h3><p>${e(row.email)}${row.phone ? ' · ' + e(row.phone) : ''}</p>
-    <p>Cadastro em ${e(date(row.created_at))}</p>
-    <button type="button" class="secondary" data-customer-orders="${e(row.id)}">Ver pedidos</button>
-  </article>`).join('') || '<p>Nenhum cliente nesta página.</p>'}${paging(rows.length > pageSize)}</div>`;
+  return `<div class="stack">${rows.slice(0, pageSize).map(row => `<details ${row.id === openId ? 'open' : ''}>
+    <summary>${e(row.name)} · ${e(row.email)}</summary>
+    <div class="stack">
+      <p>Cadastro em ${e(date(row.created_at))}${row.phone ? ' · Telefone ' + e(row.phone) : ''}</p>
+      <form data-customer-support="${e(row.id)}">
+        ${textarea('note', 'Anotação interna de atendimento', row.support_note, 'maxlength="1600"')}
+        <div class="actions">
+          <button type="submit">Salvar anotação</button>
+          <button type="button" class="secondary" data-customer-orders="${e(row.id)}">Ver pedidos</button>
+        </div>
+      </form>
+    </div>
+  </details>`).join('') || '<p>Nenhum cliente nesta página.</p>'}${paging(rows.length > pageSize)}</div>`;
 }
 
 let customerFilter;
@@ -248,7 +256,7 @@ async function render(openId) {
   let html;
   switch (tab) {
     case 'dashboard': html = await dashboard(); break;
-    case 'customers': html = await customersBody(); break;
+    case 'customers': html = await customersBody(openId); break;
     case 'orders': html = await ordersBody(openId); break;
     case 'settings': html = await settingsBody(); break;
     case 'history': html = await historyBody(); break;
@@ -321,6 +329,10 @@ document.addEventListener('submit', event => {
   void busy(form, async values => {
     if (form.dataset.table) {
       await render(await saveCatalog(form, values));
+    } else if (form.dataset.customerSupport) {
+      const id = form.dataset.customerSupport;
+      await data(db.from('customer_support').upsert({ id, note: values.note.trim() }));
+      await render(id);
     } else if (form.dataset.order) {
       await data(db.rpc('fioritta_studio_order', {
         target_order: form.dataset.order, next_status: values.next_status, quoted_cents: cents(values.total_cents),
