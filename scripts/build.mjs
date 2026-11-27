@@ -10,3 +10,11 @@ await build({
   format: 'esm',
   minify: true,
 });
+
+await build({
+  entryPoints: { app: 'src/v4-app.js' },
+  outdir: 'dist/v4',
+  bundle: true,
+  format: 'esm',
+  minify: true,
+});
